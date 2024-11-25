@@ -54,10 +54,25 @@ document.addEventListener('DOMContentLoaded', function() {
       numberSpan.textContent = index + 1 + '.';
       numberSpan.classList.add('lineup-number', 'mr-2');
 
-      // Player Name
-      const nameSpan = document.createElement('span');
-      nameSpan.textContent = player.name;
-      nameSpan.classList.add('lineup-name', 'mr-2');
+      // Player Name Input (Editable)
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.value = player.name;
+      nameInput.classList.add('form-control', 'lineup-name', 'mr-2');
+      nameInput.style.width = '150px';
+      nameInput.addEventListener('change', function () {
+        // Check for duplicate names
+        if (players.some((p, idx) => p.name === this.value && idx !== index)) {
+          alert('A player with this name already exists!');
+          this.value = player.name; // Revert to old name
+        } else {
+          players[index].name = this.value;
+          savePlayers(players);
+          displayRoster();
+          displayFieldDiagram();
+          displayBenchPlayers();
+        }
+      });
 
       // Position Select Dropdown
       const positionSelect = document.createElement('select');
@@ -73,9 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
         displayBenchPlayers();
       });
 
-      // Append number, name, and position select to infoDiv
+      // Append number, name input, and position select to infoDiv
       infoDiv.appendChild(numberSpan);
-      infoDiv.appendChild(nameSpan);
+      infoDiv.appendChild(nameInput);
       infoDiv.appendChild(positionSelect);
 
       // Remove Button
@@ -124,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('saveLineup').addEventListener('click', function () {
     const newOrder = [];
     const players = loadPlayers();
-    const namesInOrder = Array.from(document.getElementById('rosterList').children).map(li => li.querySelector('.lineup-name').textContent);
+    const namesInOrder = Array.from(document.getElementById('rosterList').children).map(li => li.querySelector('.lineup-name').value);
 
     namesInOrder.forEach(name => {
       const player = players.find(p => p.name === name);
