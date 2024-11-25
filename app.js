@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Position Coordinates for Field Diagram
   const positionCoordinates = {
-    'Pitcher': { top: '45%', left: '50%' },
+    'Pitcher': { top: '75%', left: '50%' },
     'Catcher': { top: '90%', left: '50%' },
     'First Base': { top: '50%', left: '80%' },
     'Second Base': { top: '30%', left: '55%' },
