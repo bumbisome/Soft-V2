@@ -35,18 +35,29 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('players', JSON.stringify(players));
   }
 
-  // Function to display players in the list with position selection and remove button
-  function displayPlayers() {
-    const playerList = document.getElementById('playerList');
-    playerList.innerHTML = '';
+  // Function to display the roster with position selection, remove button, and batting order numbers
+  function displayRoster() {
+    const rosterList = document.getElementById('rosterList');
+    rosterList.innerHTML = '';
     let players = loadPlayers();
 
     players.forEach((player, index) => {
       const li = document.createElement('li');
       li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'justify-content-between');
 
-      const nameDiv = document.createElement('div');
-      nameDiv.textContent = player.name;
+      // Create a div for the player info
+      const infoDiv = document.createElement('div');
+      infoDiv.classList.add('d-flex', 'align-items-center');
+
+      // Batting Order Number
+      const numberSpan = document.createElement('span');
+      numberSpan.textContent = index + 1 + '.';
+      numberSpan.classList.add('lineup-number', 'mr-2');
+
+      // Player Name
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = player.name;
+      nameSpan.classList.add('lineup-name', 'mr-2');
 
       // Position Select Dropdown
       const positionSelect = document.createElement('select');
@@ -62,6 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
         displayBenchPlayers();
       });
 
+      // Append number, name, and position select to infoDiv
+      infoDiv.appendChild(numberSpan);
+      infoDiv.appendChild(nameSpan);
+      infoDiv.appendChild(positionSelect);
+
       // Remove Button
       const removeButton = document.createElement('button');
       removeButton.textContent = 'Remove';
@@ -72,52 +88,23 @@ document.addEventListener('DOMContentLoaded', function() {
           players.splice(index, 1);
           savePlayers(players);
           // Update displays
-          displayPlayers();
-          displayLineup();
+          displayRoster();
           displayFieldDiagram();
           displayBenchPlayers();
         }
       });
 
-      // Append elements to the list item
-      li.appendChild(nameDiv);
-      li.appendChild(positionSelect);
+      // Append infoDiv and remove button to the list item
+      li.appendChild(infoDiv);
       li.appendChild(removeButton);
-      playerList.appendChild(li);
-    });
-  }
-
-  // Function to display the batting lineup with numbers
-  function displayLineup() {
-    const battingLineup = document.getElementById('battingLineup');
-    battingLineup.innerHTML = '';
-    const players = loadPlayers();
-
-    players.forEach((player, index) => {
-      const li = document.createElement('li');
-      li.classList.add('list-group-item', 'd-flex', 'align-items-center');
-
-      // Create a span for the batting order number
-      const numberSpan = document.createElement('span');
-      numberSpan.textContent = index + 1 + '.';
-      numberSpan.classList.add('lineup-number');
-
-      // Create a span for the player name
-      const nameSpan = document.createElement('span');
-      nameSpan.textContent = player.name;
-      nameSpan.classList.add('lineup-name', 'ml-2');
-
-      // Append number and name to the list item
-      li.appendChild(numberSpan);
-      li.appendChild(nameSpan);
-      battingLineup.appendChild(li);
+      rosterList.appendChild(li);
     });
   }
 
   // Function to update batting lineup numbering
   function updateLineupNumbers() {
-    const battingLineupItems = document.querySelectorAll('#battingLineup li');
-    battingLineupItems.forEach((li, index) => {
+    const rosterItems = document.querySelectorAll('#rosterList li');
+    rosterItems.forEach((li, index) => {
       const numberSpan = li.querySelector('.lineup-number');
       if (numberSpan) {
         numberSpan.textContent = index + 1 + '.';
@@ -125,8 +112,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initialize Sortable for batting lineup
-  const sortable = Sortable.create(document.getElementById('battingLineup'), {
+  // Initialize Sortable for roster list
+  const sortable = Sortable.create(document.getElementById('rosterList'), {
     animation: 150,
     onUpdate: function () {
       updateLineupNumbers();
@@ -137,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('saveLineup').addEventListener('click', function () {
     const newOrder = [];
     const players = loadPlayers();
-    const namesInOrder = Array.from(document.getElementById('battingLineup').children).map(li => li.querySelector('.lineup-name').textContent);
+    const namesInOrder = Array.from(document.getElementById('rosterList').children).map(li => li.querySelector('.lineup-name').textContent);
 
     namesInOrder.forEach(name => {
       const player = players.find(p => p.name === name);
@@ -145,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     savePlayers(newOrder);
-    displayPlayers();
+    displayRoster();
     displayFieldDiagram();
     displayBenchPlayers();
   });
@@ -216,8 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         players.push({ name: playerName });
         savePlayers(players);
-        displayPlayers();
-        displayLineup();
+        displayRoster();
         displayFieldDiagram();
         displayBenchPlayers();
         playerNameInput.value = '';
@@ -225,9 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Initial display of players, lineup, field diagram, and bench players
-  displayPlayers();
-  displayLineup();
+  // Initial display of roster, field diagram, and bench players
+  displayRoster();
   displayFieldDiagram();
   displayBenchPlayers();
 
