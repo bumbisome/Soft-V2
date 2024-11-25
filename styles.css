@@ -93,3 +93,17 @@ h1, h2 {
   background-color: #c0392b;
 }
 
+/* Styling for the batting lineup numbers */
+#battingLineup li {
+  display: flex;
+  align-items: center;
+}
+
+.lineup-number {
+  width: 25px;
+  font-weight: bold;
+}
+
+.lineup-name {
+  flex-grow: 1;
+}
