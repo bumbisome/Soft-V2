@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Positions List
   const positions = [
     'Pitcher', 'Catcher', 'First Base', 'Second Base', 'Third Base',
-    'Shortstop', 'Left Field', 'Center Field', 'Right Field'
+    'Shortstop', 'Left Field', 'Left Center Field', 'Right Center Field', 'Right Field',
+    'Bench'
   ];
 
   // Position Coordinates for Field Diagram
@@ -14,12 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
     'Pitcher': { top: '45%', left: '50%' },
     'Catcher': { top: '60%', left: '50%' },
     'First Base': { top: '50%', left: '80%' },
-    'Second Base': { top: '30%', left: '60%' },
+    'Second Base': { top: '30%', left: '55%' },
     'Third Base': { top: '50%', left: '20%' },
-    'Shortstop': { top: '30%', left: '40%' },
-    'Left Field': { top: '10%', left: '20%' },
-    'Center Field': { top: '5%', left: '50%' },
-    'Right Field': { top: '10%', left: '80%' },
+    'Shortstop': { top: '30%', left: '45%' },
+    'Left Field': { top: '15%', left: '20%' },
+    'Left Center Field': { top: '10%', left: '35%' },
+    'Right Center Field': { top: '10%', left: '65%' },
+    'Right Field': { top: '15%', left: '80%' },
+    // 'Bench' position doesn't have coordinates
   };
 
   // Function to load players from LocalStorage
@@ -40,12 +43,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     players.forEach((player, index) => {
       const li = document.createElement('li');
+      li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'justify-content-between');
 
-      const nameSpan = document.createElement('span');
-      nameSpan.textContent = player.name;
+      const nameDiv = document.createElement('div');
+      nameDiv.textContent = player.name;
 
       // Position Select Dropdown
       const positionSelect = document.createElement('select');
+      positionSelect.classList.add('form-control', 'ml-2');
+      positionSelect.style.width = '150px';
       positionSelect.innerHTML = `<option value="">Select Position</option>` + positions
         .map(pos => `<option value="${pos}" ${player.position === pos ? 'selected' : ''}>${pos}</option>`)
         .join('');
@@ -53,12 +59,13 @@ document.addEventListener('DOMContentLoaded', function() {
         players[index].position = this.value;
         savePlayers(players);
         displayFieldDiagram();
+        displayBenchPlayers();
       });
 
       // Remove Button
       const removeButton = document.createElement('button');
       removeButton.textContent = 'Remove';
-      removeButton.classList.add('remove-button');
+      removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'remove-button');
       removeButton.addEventListener('click', function () {
         if (confirm(`Are you sure you want to remove ${player.name}?`)) {
           // Remove player from the array
@@ -68,11 +75,12 @@ document.addEventListener('DOMContentLoaded', function() {
           displayPlayers();
           displayLineup();
           displayFieldDiagram();
+          displayBenchPlayers();
         }
       });
 
       // Append elements to the list item
-      li.appendChild(nameSpan);
+      li.appendChild(nameDiv);
       li.appendChild(positionSelect);
       li.appendChild(removeButton);
       playerList.appendChild(li);
@@ -87,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     players.forEach((player, index) => {
       const li = document.createElement('li');
+      li.classList.add('list-group-item', 'd-flex', 'align-items-center');
 
       // Create a span for the batting order number
       const numberSpan = document.createElement('span');
@@ -96,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Create a span for the player name
       const nameSpan = document.createElement('span');
       nameSpan.textContent = player.name;
-      nameSpan.classList.add('lineup-name');
+      nameSpan.classList.add('lineup-name', 'ml-2');
 
       // Append number and name to the list item
       li.appendChild(numberSpan);
@@ -138,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
     savePlayers(newOrder);
     displayPlayers();
     displayFieldDiagram();
+    displayBenchPlayers();
   });
 
   // Function to display the field diagram
@@ -147,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const players = loadPlayers();
 
     players.forEach(player => {
-      if (player.position && positionCoordinates[player.position]) {
+      if (player.position && player.position !== 'Bench' && positionCoordinates[player.position]) {
         const pos = positionCoordinates[player.position];
         const label = document.createElement('div');
         label.classList.add('position-label');
@@ -155,6 +165,39 @@ document.addEventListener('DOMContentLoaded', function() {
         label.style.left = pos.left;
         label.textContent = player.name;
         fieldDiagram.appendChild(label);
+      }
+    });
+  }
+
+  // Function to display bench players
+  function displayBenchPlayers() {
+    const benchTableBody = document.querySelector('#benchTable tbody');
+    benchTableBody.innerHTML = '';
+    const players = loadPlayers();
+
+    players.forEach((player, index) => {
+      if (player.position === 'Bench') {
+        const tr = document.createElement('tr');
+
+        // Player Name
+        const nameTd = document.createElement('td');
+        nameTd.textContent = player.name;
+
+        // Notes
+        const notesTd = document.createElement('td');
+        const notesInput = document.createElement('input');
+        notesInput.type = 'text';
+        notesInput.value = player.notes || '';
+        notesInput.classList.add('form-control');
+        notesInput.addEventListener('input', function () {
+          players[index].notes = this.value;
+          savePlayers(players);
+        });
+        notesTd.appendChild(notesInput);
+
+        tr.appendChild(nameTd);
+        tr.appendChild(notesTd);
+        benchTableBody.appendChild(tr);
       }
     });
   }
@@ -176,14 +219,16 @@ document.addEventListener('DOMContentLoaded', function() {
         displayPlayers();
         displayLineup();
         displayFieldDiagram();
+        displayBenchPlayers();
         playerNameInput.value = '';
       }
     }
   });
 
-  // Initial display of players, lineup, and field diagram
+  // Initial display of players, lineup, field diagram, and bench players
   displayPlayers();
   displayLineup();
   displayFieldDiagram();
+  displayBenchPlayers();
 
 });
