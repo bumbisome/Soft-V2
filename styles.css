@@ -1,67 +1,17 @@
 /* styles.css */
 
-/* CSS Styling */
+/* Custom CSS Styling */
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-}
-
-h1, h2 {
-  text-align: center;
-}
-
-#playerForm {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#playerForm input {
-  padding: 5px;
-  font-size: 16px;
-}
-
-#playerForm button {
-  padding: 5px 10px;
-  font-size: 16px;
-}
-
-#playerList, #battingLineup {
-  list-style-type: none;
-  padding: 0;
-  margin: 0 auto 20px;
-  width: 300px;
-}
-
-#playerList li, #battingLineup li {
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 5px;
-  background-color: #f9f9f9;
-  text-align: left;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#playerList select {
-  margin-left: 10px;
-}
-
-#saveLineup {
-  display: block;
-  margin: 0 auto 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
+/* Adjust the field diagram */
 #fieldDiagram {
   position: relative;
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
   background-image: url('field.png'); /* Ensure 'field.png' is in the same directory */
   background-size: cover;
-  margin: 20px auto;
+  background-position: center;
+  margin: 0 auto;
   border: 1px solid #ccc;
 }
 
@@ -69,41 +19,47 @@ h1, h2 {
   position: absolute;
   font-weight: bold;
   text-align: center;
-  width: 100px;
-  margin-left: -50px; /* Centers the label horizontally */
+  width: 80px;
+  margin-left: -40px; /* Centers the label horizontally */
   margin-top: -10px;  /* Adjusts vertical position */
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 2px 5px;
   border-radius: 5px;
 }
 
-/* Styling for the remove button */
-.remove-button {
-  margin-left: 10px;
-  padding: 5px;
-  font-size: 14px;
-  background-color: #e74c3c; /* Red color for delete action */
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.remove-button:hover {
-  background-color: #c0392b;
-}
-
-/* Styling for the batting lineup numbers */
-#battingLineup li {
+/* Adjust list items in player list and batting lineup */
+#playerList li, #battingLineup li {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .lineup-number {
-  width: 25px;
+  width: 30px;
   font-weight: bold;
 }
 
 .lineup-name {
   flex-grow: 1;
+}
+
+/* Style for the remove button */
+.remove-button {
+  margin-left: 10px;
+}
+
+#benchTable input[type="text"] {
+  width: 100%;
+  padding: 5px;
+}
+
+/* Override Bootstrap button styles if necessary */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
 }
