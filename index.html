@@ -17,26 +17,18 @@
   <div class="container my-4">
     <h1 class="text-center mb-4">Softball Team Manager</h1>
 
-    <!-- Add New Player Form -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <h2 class="mb-0">Add New Player</h2>
-      </div>
-      <div class="card-body">
-        <form id="playerForm" class="form-inline justify-content-center">
-          <div class="form-group mb-2">
-            <label for="playerName" class="sr-only">Player Name</label>
-            <input type="text" class="form-control" id="playerName" placeholder="Player Name" required>
-          </div>
-          <button type="submit" class="btn btn-primary mb-2 ml-2">Add Player</button>
-        </form>
-      </div>
-    </div>
-
     <!-- Combined Roster and Batting Lineup -->
     <div class="card mb-4">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <h2 class="mb-0">Roster and Batting Lineup</h2>
+        <!-- Add New Player Form -->
+        <form id="playerForm" class="form-inline">
+          <div class="form-group mb-0">
+            <label for="playerName" class="sr-only">Player Name</label>
+            <input type="text" class="form-control mr-2" id="playerName" placeholder="Player Name" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Player</button>
+        </form>
       </div>
       <ul id="rosterList" class="list-group list-group-flush">
         <!-- Player items will be added here dynamically -->
