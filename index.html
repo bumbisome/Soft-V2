@@ -3,33 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <title>Softball Team Manager</title>
+  <!-- Include Bootstrap CSS -->
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
   <!-- Include SortableJS library for drag-and-drop functionality -->
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
   <!-- Link to the CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Softball Team Manager</h1>
+  <div class="container my-4">
+    <h1 class="text-center mb-4">Softball Team Manager</h1>
 
-  <!-- Add New Player Form -->
-  <h2>Add New Player</h2>
-  <form id="playerForm">
-    <input type="text" id="playerName" placeholder="Player Name" required>
-    <button type="submit">Add Player</button>
-  </form>
+    <!-- Add New Player Form -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0">Add New Player</h2>
+      </div>
+      <div class="card-body">
+        <form id="playerForm" class="form-inline justify-content-center">
+          <div class="form-group mb-2">
+            <label for="playerName" class="sr-only">Player Name</label>
+            <input type="text" class="form-control" id="playerName" placeholder="Player Name" required>
+          </div>
+          <button type="submit" class="btn btn-primary mb-2 ml-2">Add Player</button>
+        </form>
+      </div>
+    </div>
 
-  <!-- Player List -->
-  <h2>Players</h2>
-  <ul id="playerList"></ul>
+    <!-- Player List -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0">Players</h2>
+      </div>
+      <ul id="playerList" class="list-group list-group-flush">
+        <!-- Player items will be added here dynamically -->
+      </ul>
+    </div>
 
-  <!-- Batting Lineup -->
-  <h2>Batting Lineup</h2>
-  <ul id="battingLineup"></ul>
-  <button id="saveLineup">Save Lineup</button>
+    <!-- Batting Lineup -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0">Batting Lineup</h2>
+      </div>
+      <ul id="battingLineup" class="list-group list-group-flush">
+        <!-- Batting lineup items will be added here dynamically -->
+      </ul>
+      <div class="card-footer text-center">
+        <button id="saveLineup" class="btn btn-success">Save Lineup</button>
+      </div>
+    </div>
 
-  <!-- Field Positions -->
-  <h2>Field Positions</h2>
-  <div id="fieldDiagram"></div>
+    <!-- Field Positions -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0">Field Positions</h2>
+      </div>
+      <div class="card-body text-center">
+        <div id="fieldDiagram" class="mx-auto"></div>
+      </div>
+    </div>
+
+    <!-- Bench Players -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0">Bench</h2>
+      </div>
+      <div class="card-body">
+        <table id="benchTable" class="table table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th>Player Name</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Bench players will be added here dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+  ></script>
 
   <!-- Include the JavaScript file -->
   <script src="app.js"></script>
