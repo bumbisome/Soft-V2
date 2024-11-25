@@ -12,16 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Position Coordinates for Field Diagram
   const positionCoordinates = {
-    'Pitcher': { top: '75%', left: '50%' },
+    'Pitcher': { top: '65%', left: '50%' },
     'Catcher': { top: '90%', left: '50%' },
     'First Base': { top: '50%', left: '80%' },
-    'Second Base': { top: '30%', left: '55%' },
+    'Second Base': { top: '30%', left: '65%' },
     'Third Base': { top: '50%', left: '20%' },
     'Shortstop': { top: '30%', left: '45%' },
-    'Left Field': { top: '15%', left: '20%' },
+    'Left Field': { top: '15%', left: '10%' },
     'Left Center Field': { top: '10%', left: '35%' },
     'Right Center Field': { top: '10%', left: '65%' },
-    'Right Field': { top: '15%', left: '80%' },
+    'Right Field': { top: '15%', left: '90%' },
     // 'Bench' position doesn't have coordinates
   };
 
