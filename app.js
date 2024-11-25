@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('players', JSON.stringify(players));
   }
 
-  // Function to display players in the list with position selection
+  // Function to display players in the list with position selection and remove button
   function displayPlayers() {
     const playerList = document.getElementById('playerList');
     playerList.innerHTML = '';
-    const players = loadPlayers();
+    let players = loadPlayers();
 
     players.forEach((player, index) => {
       const li = document.createElement('li');
@@ -55,8 +55,26 @@ document.addEventListener('DOMContentLoaded', function() {
         displayFieldDiagram();
       });
 
+      // Remove Button
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.classList.add('remove-button');
+      removeButton.addEventListener('click', function () {
+        if (confirm(`Are you sure you want to remove ${player.name}?`)) {
+          // Remove player from the array
+          players.splice(index, 1);
+          savePlayers(players);
+          // Update displays
+          displayPlayers();
+          displayLineup();
+          displayFieldDiagram();
+        }
+      });
+
+      // Append elements to the list item
       li.appendChild(nameSpan);
       li.appendChild(positionSelect);
+      li.appendChild(removeButton);
       playerList.appendChild(li);
     });
   }
@@ -92,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     savePlayers(newOrder);
     displayPlayers();
+    displayFieldDiagram();
   });
 
   // Function to display the field diagram
@@ -141,4 +160,3 @@ document.addEventListener('DOMContentLoaded', function() {
   displayFieldDiagram();
 
 });
-
