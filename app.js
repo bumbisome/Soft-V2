@@ -105,9 +105,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Function to update batting lineup numbering
+  function updateLineupNumbers() {
+    const battingLineupItems = document.querySelectorAll('#battingLineup li');
+    battingLineupItems.forEach((li, index) => {
+      const numberSpan = li.querySelector('.lineup-number');
+      if (numberSpan) {
+        numberSpan.textContent = index + 1 + '.';
+      }
+    });
+  }
+
   // Initialize Sortable for batting lineup
   const sortable = Sortable.create(document.getElementById('battingLineup'), {
     animation: 150,
+    onUpdate: function () {
+      updateLineupNumbers();
+    }
   });
 
   // Save the new batting lineup order
@@ -123,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     savePlayers(newOrder);
     displayPlayers();
-    displayLineup();
     displayFieldDiagram();
   });
 
