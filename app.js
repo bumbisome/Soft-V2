@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
     'Pitcher': { top: '65%', left: '50%' },
     'Catcher': { top: '90%', left: '50%' },
     'First Base': { top: '50%', left: '80%' },
-    'Second Base': { top: '30%', left: '65%' },
+    'Second Base': { top: '40%', left: '65%' },
     'Third Base': { top: '50%', left: '20%' },
     'Shortstop': { top: '30%', left: '45%' },
-    'Left Field': { top: '15%', left: '10%' },
+    'Left Field': { top: '25%', left: '10%' },
     'Left Center Field': { top: '10%', left: '35%' },
     'Right Center Field': { top: '10%', left: '65%' },
-    'Right Field': { top: '15%', left: '90%' },
+    'Right Field': { top: '25%', left: '90%' },
     // 'Bench' position doesn't have coordinates
   };
 
