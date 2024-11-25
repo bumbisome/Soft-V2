@@ -27,8 +27,8 @@
   border-radius: 5px;
 }
 
-/* Adjust list items in player list and batting lineup */
-#playerList li, #battingLineup li {
+/* Adjust list items in roster list */
+#rosterList li {
   display: flex;
   align-items: center;
   justify-content: space-between;
