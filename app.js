@@ -79,15 +79,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Function to display the batting lineup
+  // Function to display the batting lineup with numbers
   function displayLineup() {
     const battingLineup = document.getElementById('battingLineup');
     battingLineup.innerHTML = '';
     const players = loadPlayers();
 
-    players.forEach(player => {
+    players.forEach((player, index) => {
       const li = document.createElement('li');
-      li.textContent = player.name;
+
+      // Create a span for the batting order number
+      const numberSpan = document.createElement('span');
+      numberSpan.textContent = index + 1 + '.';
+      numberSpan.classList.add('lineup-number');
+
+      // Create a span for the player name
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = player.name;
+      nameSpan.classList.add('lineup-name');
+
+      // Append number and name to the list item
+      li.appendChild(numberSpan);
+      li.appendChild(nameSpan);
       battingLineup.appendChild(li);
     });
   }
@@ -101,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('saveLineup').addEventListener('click', function () {
     const newOrder = [];
     const players = loadPlayers();
-    const namesInOrder = Array.from(document.getElementById('battingLineup').children).map(li => li.textContent);
+    const namesInOrder = Array.from(document.getElementById('battingLineup').children).map(li => li.querySelector('.lineup-name').textContent);
 
     namesInOrder.forEach(name => {
       const player = players.find(p => p.name === name);
@@ -110,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     savePlayers(newOrder);
     displayPlayers();
+    displayLineup();
     displayFieldDiagram();
   });
 
