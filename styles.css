@@ -41,6 +41,7 @@
 
 .lineup-name {
   flex-grow: 1;
+  margin-right: 10px;
 }
 
 /* Style for the remove button */
@@ -51,6 +52,11 @@
 #benchTable input[type="text"] {
   width: 100%;
   padding: 5px;
+}
+
+/* Adjust the input field for player names */
+.lineup-name {
+  width: 150px;
 }
 
 /* Override Bootstrap button styles if necessary */
