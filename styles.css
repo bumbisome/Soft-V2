@@ -36,12 +36,7 @@
 
 .lineup-number {
   font-weight: bold;
-  cursor: grab;
   margin-right: 10px;
-}
-
-.lineup-number:active {
-  cursor: grabbing;
 }
 
 .lineup-name {
@@ -57,6 +52,18 @@
   margin-left: 10px;
 }
 
+/* Style the drag handle */
+.drag-handle {
+  cursor: grab;
+  font-size: 18px;
+  user-select: none;
+  margin-right: 10px;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
 #benchTable input[type="text"] {
   width: 100%;
   padding: 5px;
@@ -68,6 +75,7 @@
     flex-wrap: wrap;
   }
 
+  .drag-handle,
   .lineup-number,
   .lineup-name,
   .position-select,
@@ -76,6 +84,7 @@
     margin-bottom: 5px;
   }
 
+  .drag-handle,
   .lineup-number,
   .lineup-name,
   .position-select {
