@@ -12,16 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Position Coordinates for Field Diagram
   const positionCoordinates = {
-    'Pitcher': { top: '65%', left: '50%' },
-    'Catcher': { top: '90%', left: '50%' },
-    'First Base': { top: '60%', left: '80%' },
-    'Second Base': { top: '40%', left: '65%' },
-    'Third Base': { top: '60%', left: '20%' },
-    'Shortstop': { top: '40%', left: '35%' },
-    'Left Field': { top: '35%', left: '10%' },
-    'Left Center Field': { top: '20%', left: '35%' },
-    'Right Center Field': { top: '20%', left: '65%' },
-    'Right Field': { top: '35%', left: '90%' },
+    'Pitcher': { top: '45%', left: '50%' },
+    'Catcher': { top: '60%', left: '50%' },
+    'First Base': { top: '50%', left: '80%' },
+    'Second Base': { top: '30%', left: '55%' },
+    'Third Base': { top: '50%', left: '20%' },
+    'Shortstop': { top: '30%', left: '45%' },
+    'Left Field': { top: '15%', left: '20%' },
+    'Left Center Field': { top: '10%', left: '35%' },
+    'Right Center Field': { top: '10%', left: '65%' },
+    'Right Field': { top: '15%', left: '80%' },
     // 'Bench' position doesn't have coordinates
   };
 
@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     players.forEach((player, index) => {
       const li = document.createElement('li');
-      li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'justify-content-between');
+      li.classList.add('list-group-item');
 
       // Create a div for the player info
       const infoDiv = document.createElement('div');
-      infoDiv.classList.add('d-flex', 'align-items-center');
+      infoDiv.classList.add('d-flex', 'align-items-center', 'flex-wrap');
 
       // Batting Order Number
       const numberSpan = document.createElement('span');
@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
       nameInput.type = 'text';
       nameInput.value = player.name;
       nameInput.classList.add('form-control', 'lineup-name', 'mr-2');
-      nameInput.style.width = '150px';
       nameInput.addEventListener('change', function () {
         // Check for duplicate names
         if (players.some((p, idx) => p.name === this.value && idx !== index)) {
@@ -76,8 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Position Select Dropdown
       const positionSelect = document.createElement('select');
-      positionSelect.classList.add('form-control', 'ml-2');
-      positionSelect.style.width = '150px';
+      positionSelect.classList.add('form-control', 'ml-2', 'position-select');
       positionSelect.innerHTML = `<option value="">Select Position</option>` + positions
         .map(pos => `<option value="${pos}" ${player.position === pos ? 'selected' : ''}>${pos}</option>`)
         .join('');
