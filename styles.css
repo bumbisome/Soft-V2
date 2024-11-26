@@ -55,9 +55,14 @@
 /* Style the drag handle */
 .drag-handle {
   cursor: grab;
-  font-size: 18px;
   user-select: none;
   margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.drag-handle i {
+  font-size: 18px;
 }
 
 .drag-handle:active {
