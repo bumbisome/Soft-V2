@@ -73,19 +73,19 @@
     flex-wrap: wrap;
   }
 
+  .drag-handle,
   .lineup-number,
   .lineup-name,
   .position-select,
-  .remove-button,
-  .drag-handle {
+  .remove-button {
     width: 100% !important;
     margin-bottom: 5px;
   }
 
+  .drag-handle,
   .lineup-number,
   .lineup-name,
-  .position-select,
-  .drag-handle {
+  .position-select {
     margin-right: 0 !important;
   }
 
