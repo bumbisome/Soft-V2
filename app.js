@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const positionCoordinates = {
     'Pitcher': { top: '65%', left: '50%' },
     'Catcher': { top: '90%', left: '50%' },
-    'First Base': { top: '50%', left: '80%' },
+    'First Base': { top: '60%', left: '80%' },
     'Second Base': { top: '40%', left: '65%' },
-    'Third Base': { top: '50%', left: '20%' },
+    'Third Base': { top: '60%', left: '20%' },
     'Shortstop': { top: '30%', left: '45%' },
-    'Left Field': { top: '25%', left: '10%' },
-    'Left Center Field': { top: '10%', left: '35%' },
-    'Right Center Field': { top: '10%', left: '65%' },
-    'Right Field': { top: '25%', left: '90%' },
+    'Left Field': { top: '35%', left: '10%' },
+    'Left Center Field': { top: '20%', left: '35%' },
+    'Right Center Field': { top: '20%', left: '65%' },
+    'Right Field': { top: '35%', left: '90%' },
     // 'Bench' position doesn't have coordinates
   };
 
