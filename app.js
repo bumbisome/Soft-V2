@@ -12,19 +12,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Position Coordinates for Field Diagram
   const positionCoordinates = {
-
-  'Pitcher': { top: '65%', left: '50%' },
-    'Catcher': { top: '90%', left: '50%' },
-    'First Base': { top: '60%', left: '80%' },
-    'Second Base': { top: '40%', left: '65%' },
-    'Third Base': { top: '60%', left: '20%' },
-    'Shortstop': { top: '40%', left: '35%' },
-    'Left Field': { top: '35%', left: '10%' },
-    'Left Center Field': { top: '20%', left: '35%' },
-    'Right Center Field': { top: '20%', left: '65%' },
-    'Right Field': { top: '35%', left: '90%' },
+    'Pitcher': { top: '45%', left: '50%' },
+    'Catcher': { top: '60%', left: '50%' },
+    'First Base': { top: '50%', left: '80%' },
+    'Second Base': { top: '30%', left: '55%' },
+    'Third Base': { top: '50%', left: '20%' },
+    'Shortstop': { top: '30%', left: '45%' },
+    'Left Field': { top: '15%', left: '20%' },
+    'Left Center Field': { top: '10%', left: '35%' },
+    'Right Center Field': { top: '10%', left: '65%' },
+    'Right Field': { top: '15%', left: '80%' },
     // 'Bench' position doesn't have coordinates
-
   };
 
   // Function to load players from LocalStorage
@@ -43,9 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
     rosterList.innerHTML = '';
     let players = loadPlayers();
 
-    players.forEach((player) => {
+    players.forEach((player, index) => {
       const li = document.createElement('li');
       li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'justify-content-between');
+      li.dataset.playerId = player.id; // Store player ID in data attribute
 
       // Create a div for the player info
       const infoDiv = document.createElement('div');
@@ -54,11 +53,13 @@ document.addEventListener('DOMContentLoaded', function () {
       // Drag Handle
       const dragHandle = document.createElement('span');
       dragHandle.classList.add('drag-handle', 'mr-2');
-      dragHandle.innerHTML = '&#9776;'; // Unicode character for a hamburger menu icon
+      const dragIcon = document.createElement('i');
+      dragIcon.classList.add('fas', 'fa-grip-lines'); // Font Awesome grip lines icon
+      dragHandle.appendChild(dragIcon);
 
       // Batting Order Number
       const numberSpan = document.createElement('span');
-      numberSpan.textContent = players.indexOf(player) + 1 + '.';
+      numberSpan.textContent = index + 1 + '.';
       numberSpan.classList.add('lineup-number', 'mr-2');
 
       // Player Name Input (Editable)
@@ -68,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
       nameInput.classList.add('form-control', 'lineup-name', 'mr-2');
       nameInput.addEventListener('change', function () {
         // Check for duplicate names
-        if (players.some((p) => p.name === this.value && p !== player)) {
+        if (players.some((p) => p.name === this.value && p.id !== player.id)) {
           alert('A player with this name already exists!');
           this.value = player.name; // Revert to old name
         } else {
@@ -106,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
       removeButton.addEventListener('click', function () {
         if (confirm(`Are you sure you want to remove ${player.name}?`)) {
           // Remove player from the array
-          players = players.filter((p) => p !== player);
+          players = players.filter((p) => p.id !== player.id);
           savePlayers(players);
           // Update displays
           displayRoster();
@@ -137,16 +138,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortable = Sortable.create(document.getElementById('rosterList'), {
     animation: 150,
     handle: '.drag-handle',
-    onUpdate: function () {
-      const newOrder = [];
+    onEnd: function () {
       const players = loadPlayers();
-      const namesInOrder = Array.from(document.getElementById('rosterList').children).map(li => li.querySelector('.lineup-name').value);
-
-      namesInOrder.forEach(name => {
-        const player = players.find(p => p.name === name);
-        if (player) newOrder.push(player);
+      const newOrder = [];
+      const rosterItems = document.querySelectorAll('#rosterList li');
+      rosterItems.forEach(li => {
+        const playerId = li.dataset.playerId;
+        const player = players.find(p => p.id === playerId);
+        if (player) {
+          newOrder.push(player);
+        }
       });
-
       savePlayers(newOrder);
       updateLineupNumbers();
       displayFieldDiagram();
@@ -160,4 +162,84 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Function to display the field diagram
-  function displayFiel
+  function displayFieldDiagram() {
+    const fieldDiagram = document.getElementById('fieldDiagram');
+    fieldDiagram.innerHTML = '';
+    const players = loadPlayers();
+
+    players.forEach(player => {
+      if (player.position && player.position !== 'Bench' && positionCoordinates[player.position]) {
+        const pos = positionCoordinates[player.position];
+        const label = document.createElement('div');
+        label.classList.add('position-label');
+        label.style.top = pos.top;
+        label.style.left = pos.left;
+        label.textContent = player.name;
+        fieldDiagram.appendChild(label);
+      }
+    });
+  }
+
+  // Function to display bench players
+  function displayBenchPlayers() {
+    const benchTableBody = document.querySelector('#benchTable tbody');
+    benchTableBody.innerHTML = '';
+    const players = loadPlayers();
+
+    players.forEach(player => {
+      if (player.position === 'Bench') {
+        const tr = document.createElement('tr');
+
+        // Player Name
+        const nameTd = document.createElement('td');
+        nameTd.textContent = player.name;
+
+        // Notes
+        const notesTd = document.createElement('td');
+        const notesInput = document.createElement('input');
+        notesInput.type = 'text';
+        notesInput.value = player.notes || '';
+        notesInput.classList.add('form-control');
+        notesInput.addEventListener('input', function () {
+          player.notes = this.value;
+          savePlayers(players);
+        });
+        notesTd.appendChild(notesInput);
+
+        tr.appendChild(nameTd);
+        tr.appendChild(notesTd);
+        benchTableBody.appendChild(tr);
+      }
+    });
+  }
+
+  // Event listener for adding a new player
+  document.getElementById('playerForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const playerNameInput = document.getElementById('playerName');
+    const playerName = playerNameInput.value.trim();
+    if (playerName) {
+      let players = loadPlayers();
+
+      // Check for duplicate player names
+      if (players.some(p => p.name === playerName)) {
+        alert('Player already exists!');
+      } else {
+        // Assign a unique ID to the new player
+        const playerId = Date.now().toString(); // Use timestamp as unique ID
+        players.push({ id: playerId, name: playerName });
+        savePlayers(players);
+        displayRoster();
+        displayFieldDiagram();
+        displayBenchPlayers();
+        playerNameInput.value = '';
+      }
+    }
+  });
+
+  // Initial display of roster, field diagram, and bench players
+  displayRoster();
+  displayFieldDiagram();
+  displayBenchPlayers();
+
+});
