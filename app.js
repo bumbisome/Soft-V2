@@ -47,17 +47,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Create a div for the player info
       const infoDiv = document.createElement('div');
-      infoDiv.classList.add('d-flex', 'align-items-center', 'flex-wrap');
+      infoDiv.classList.add('d-flex', 'align-items-center');
 
-      // Drag Handle
-      const dragHandle = document.createElement('span');
-      dragHandle.classList.add('drag-handle', 'mr-2');
-      dragHandle.innerHTML = '&#9776;'; // Unicode character for a hamburger menu icon
-
-      // Batting Order Number
+      // Batting Order Number (Now acts as drag handle)
       const numberSpan = document.createElement('span');
       numberSpan.textContent = players.indexOf(player) + 1 + '.';
       numberSpan.classList.add('lineup-number', 'mr-2');
+      numberSpan.style.cursor = 'grab'; // Indicate draggable
 
       // Player Name Input (Editable)
       const nameInput = document.createElement('input');
@@ -91,8 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         displayBenchPlayers();
       });
 
-      // Append drag handle, number, name input, and position select to infoDiv
-      infoDiv.appendChild(dragHandle);
+      // Append number, name input, and position select to infoDiv
       infoDiv.appendChild(numberSpan);
       infoDiv.appendChild(nameInput);
       infoDiv.appendChild(positionSelect);
@@ -124,6 +119,117 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateLineupNumbers() {
     const rosterItems = document.querySelectorAll('#rosterList li');
     rosterItems.forEach((li, index) => {
-      const numberSpan = li.
+      const numberSpan = li.querySelector('.lineup-number');
+      if (numberSpan) {
+        numberSpan.textContent = index + 1 + '.';
+      }
+    });
+  }
 
-        
+  // Initialize Sortable for roster list with numberSpan as drag handle
+  const sortable = Sortable.create(document.getElementById('rosterList'), {
+    animation: 150,
+    handle: '.lineup-number',
+    onUpdate: function () {
+      const newOrder = [];
+      const players = loadPlayers();
+      const namesInOrder = Array.from(document.getElementById('rosterList').children).map(li => li.querySelector('.lineup-name').value);
+
+      namesInOrder.forEach(name => {
+        const player = players.find(p => p.name === name);
+        if (player) newOrder.push(player);
+      });
+
+      savePlayers(newOrder);
+      updateLineupNumbers();
+      displayFieldDiagram();
+      displayBenchPlayers();
+    }
+  });
+
+  // Save the new batting lineup order when "Save Lineup" is clicked
+  document.getElementById('saveLineup').addEventListener('click', function () {
+    // Already handled in the onUpdate function of SortableJS
+    alert('Lineup saved!');
+  });
+
+  // Function to display the field diagram
+  function displayFieldDiagram() {
+    const fieldDiagram = document.getElementById('fieldDiagram');
+    fieldDiagram.innerHTML = '';
+    const players = loadPlayers();
+
+    players.forEach(player => {
+      if (player.position && player.position !== 'Bench' && positionCoordinates[player.position]) {
+        const pos = positionCoordinates[player.position];
+        const label = document.createElement('div');
+        label.classList.add('position-label');
+        label.style.top = pos.top;
+        label.style.left = pos.left;
+        label.textContent = player.name;
+        fieldDiagram.appendChild(label);
+      }
+    });
+  }
+
+  // Function to display bench players
+  function displayBenchPlayers() {
+    const benchTableBody = document.querySelector('#benchTable tbody');
+    benchTableBody.innerHTML = '';
+    const players = loadPlayers();
+
+    players.forEach((player) => {
+      if (player.position === 'Bench') {
+        const tr = document.createElement('tr');
+
+        // Player Name
+        const nameTd = document.createElement('td');
+        nameTd.textContent = player.name;
+
+        // Notes
+        const notesTd = document.createElement('td');
+        const notesInput = document.createElement('input');
+        notesInput.type = 'text';
+        notesInput.value = player.notes || '';
+        notesInput.classList.add('form-control');
+        notesInput.addEventListener('input', function () {
+          player.notes = this.value;
+          savePlayers(players);
+        });
+        notesTd.appendChild(notesInput);
+
+        tr.appendChild(nameTd);
+        tr.appendChild(notesTd);
+        benchTableBody.appendChild(tr);
+      }
+    });
+  }
+
+  // Event listener for adding a new player
+  document.getElementById('playerForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const playerNameInput = document.getElementById('playerName');
+    const playerName = playerNameInput.value.trim();
+    if (playerName) {
+      let players = loadPlayers();
+
+      // Check for duplicate player names
+      if (players.some(p => p.name === playerName)) {
+        alert('Player already exists!');
+      } else {
+        players.push({ name: playerName });
+        savePlayers(players);
+        displayRoster();
+        displayFieldDiagram();
+        displayBenchPlayers();
+        playerNameInput.value = '';
+      }
+    }
+  });
+
+  // Initial display of roster, field diagram, and bench players
+  displayRoster();
+  displayFieldDiagram();
+  displayBenchPlayers();
+
+});
