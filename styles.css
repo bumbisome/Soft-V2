@@ -51,14 +51,20 @@
   margin-left: 10px;
 }
 
+/* Style the drag handle */
+.drag-handle {
+  cursor: grab;
+  font-size: 18px;
+  user-select: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
 #benchTable input[type="text"] {
   width: 100%;
   padding: 5px;
-}
-
-/* Adjust the input field for player names */
-.lineup-name {
-  /* Removed fixed width for better responsiveness */
 }
 
 /* Adjust the layout for small screens */
@@ -70,14 +76,16 @@
   .lineup-number,
   .lineup-name,
   .position-select,
-  .remove-button {
+  .remove-button,
+  .drag-handle {
     width: 100% !important;
     margin-bottom: 5px;
   }
 
   .lineup-number,
   .lineup-name,
-  .position-select {
+  .position-select,
+  .drag-handle {
     margin-right: 0 !important;
   }
 
