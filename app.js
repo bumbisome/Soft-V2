@@ -1,4 +1,3 @@
-// app.js
 
 // Wait for the DOM to fully load before running the script
 document.addEventListener('DOMContentLoaded', function() {
@@ -43,11 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     players.forEach((player, index) => {
       const li = document.createElement('li');
-      li.classList.add('list-group-item');
+      li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'justify-content-between');
 
       // Create a div for the player info
       const infoDiv = document.createElement('div');
       infoDiv.classList.add('d-flex', 'align-items-center', 'flex-wrap');
+
+      // Drag Handle
+      const dragHandle = document.createElement('span');
+      dragHandle.classList.add('drag-handle', 'mr-2');
+      dragHandle.innerHTML = '&#9776;'; // Unicode character for a hamburger menu icon
 
       // Batting Order Number
       const numberSpan = document.createElement('span');
@@ -86,7 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
         displayBenchPlayers();
       });
 
-      // Append number, name input, and position select to infoDiv
+      // Append drag handle, number, name input, and position select to infoDiv
+      infoDiv.appendChild(dragHandle);
       infoDiv.appendChild(numberSpan);
       infoDiv.appendChild(nameInput);
       infoDiv.appendChild(positionSelect);
@@ -125,9 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initialize Sortable for roster list
+  // Initialize Sortable for roster list with drag handle
   const sortable = Sortable.create(document.getElementById('rosterList'), {
     animation: 150,
+    handle: '.drag-handle',
     onUpdate: function () {
       updateLineupNumbers();
     }
@@ -229,4 +235,5 @@ document.addEventListener('DOMContentLoaded', function() {
   displayFieldDiagram();
   displayBenchPlayers();
 
+});
 });
