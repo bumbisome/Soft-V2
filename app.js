@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     'First Base': { top: '60%', left: '80%' },
     'Second Base': { top: '40%', left: '65%' },
     'Third Base': { top: '60%', left: '20%' },
-    'Shortstop': { top: '30%', left: '45%' },
+    'Shortstop': { top: '40%', left: '35%' },
     'Left Field': { top: '35%', left: '10%' },
     'Left Center Field': { top: '20%', left: '35%' },
     'Right Center Field': { top: '20%', left: '65%' },
