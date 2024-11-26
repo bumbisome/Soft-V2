@@ -1,3 +1,4 @@
+// app.js
 
 // Wait for the DOM to fully load before running the script
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,16 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Position Coordinates for Field Diagram
   const positionCoordinates = {
-  'Pitcher': { top: '65%', left: '50%' },
-    'Catcher': { top: '90%', left: '50%' },
-    'First Base': { top: '60%', left: '80%' },
-    'Second Base': { top: '40%', left: '65%' },
-    'Third Base': { top: '60%', left: '20%' },
-    'Shortstop': { top: '40%', left: '35%' },
-    'Left Field': { top: '35%', left: '10%' },
-    'Left Center Field': { top: '20%', left: '35%' },
-    'Right Center Field': { top: '20%', left: '65%' },
-    'Right Field': { top: '35%', left: '90%' },
+    'Pitcher': { top: '45%', left: '50%' },
+    'Catcher': { top: '60%', left: '50%' },
+    'First Base': { top: '50%', left: '80%' },
+    'Second Base': { top: '30%', left: '55%' },
+    'Third Base': { top: '50%', left: '20%' },
+    'Shortstop': { top: '30%', left: '45%' },
+    'Left Field': { top: '15%', left: '20%' },
+    'Left Center Field': { top: '10%', left: '35%' },
+    'Right Center Field': { top: '10%', left: '65%' },
+    'Right Field': { top: '15%', left: '80%' },
     // 'Bench' position doesn't have coordinates
   };
 
@@ -235,5 +236,4 @@ document.addEventListener('DOMContentLoaded', function() {
   displayFieldDiagram();
   displayBenchPlayers();
 
-});
 });
